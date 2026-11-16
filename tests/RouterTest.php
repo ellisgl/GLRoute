@@ -164,6 +164,32 @@ final class RouterTest extends TestCase
         self::assertSame('create', $r->dispatch('POST', '/users/new'));
     }
 
+    /** delete() registers a DELETE-only route: other methods get a 405 listing DELETE, and it can be named. */
+    public function testDeleteRoute(): void
+    {
+        $r = new Router();
+        $r->get('/posts/{id}', fn ($id) => "show:$id");
+        $r->delete('/posts/{id:\d+}', fn ($id) => "deleted:$id", 'posts.delete');
+        $r->delete('/session', fn () => 'logout');
+
+        self::assertSame('deleted:42', $r->dispatch('DELETE', '/posts/42'));
+        self::assertSame('show:42', $r->dispatch('GET', '/posts/42'));
+        self::assertSame('logout', $r->dispatch('DELETE', '/session'));
+
+        $m = $r->match('DELETE', '/posts/42');
+        self::assertSame(200, $m->status);
+        self::assertSame('posts.delete', $m->name);
+        self::assertSame(['id' => '42'], $m->params);
+        self::assertSame('/posts/42', $r->url('posts.delete', ['id' => 42]));
+
+        // The \d+ constraint applies to DELETE only; a non-numeric id doesn't match it.
+        self::assertSame(405, $r->match('DELETE', '/posts/abc')->status);
+
+        $m = $r->match('POST', '/session');
+        self::assertSame(405, $m->status);
+        self::assertSame(['DELETE'], $m->allowed);
+    }
+
     /** Unmatched paths give a 404 match and make dispatch() throw NotFoundException. */
     public function testNotFound(): void
     {
