@@ -18,12 +18,22 @@ class MethodNotAllowedException extends RuntimeException
      * @param string       $path    the normalized request path
      * @param list<string> $allowed methods that do have a route for the path (includes HEAD when GET does)
      */
-    public function __construct(public readonly string $method, public readonly string $path, public readonly array $allowed)
-    {
-        parent::__construct("Method $method not allowed for $path (allowed: " . implode(', ', $allowed) . ')', 405);
+    public function __construct(
+        public readonly string $method,
+        public readonly string $path,
+        public readonly array $allowed
+    ){
+        parent::__construct(
+            "Method $method not allowed for $path (allowed: " . implode(', ', $allowed) . ')',
+            405
+        );
     }
 
-    /** Value for the HTTP "Allow" response header, e.g. "GET, POST, HEAD". */
+    /**
+     * Value for the HTTP "Allow" response header, e.g. "GET, POST, HEAD".
+     *
+     * @return string
+     */
     public function allowHeader(): string
     {
         return implode(', ', $this->allowed);
