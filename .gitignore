@@ -1,3 +1,4 @@
 /vendor/
 /.openidea/
 /.idea/
+.phpunit.result.cache
