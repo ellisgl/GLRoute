@@ -95,7 +95,7 @@ use function var_export;
 class Router implements Countable, IteratorAggregate
 {
     /** Library version. Stored in exported caches; a cache from another version is rebuilt. */
-    public const string VERSION = '1.0.0';
+    public const string VERSION = '1.0.1';
 
     /** RouteMatch::$status when a route matched. */
     public const int FOUND = 200;
