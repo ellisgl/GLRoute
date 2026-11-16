@@ -475,11 +475,17 @@ final class RouterTest extends TestCase
             return true;
         }, \E_WARNING | \E_USER_WARNING);
         try {
-            $kept = $r->match('GET', '/a/1');
-            $kept = $r->url('a', ['id' => 1]);
-            $kept = $r->allowedMethods('/a/1');
-            $kept = $r->hasRoute('a');
-            $kept = $r->routes();
+            // These results are discarded on purpose: the test checks that each one raises a warning.
+            /** @noinspection PhpExpressionResultUnusedInspection */
+            $r->match('GET', '/a/1');
+            /** @noinspection PhpExpressionResultUnusedInspection */
+            $r->url('a', ['id' => 1]);
+            /** @noinspection PhpExpressionResultUnusedInspection */
+            $r->allowedMethods('/a/1');
+            /** @noinspection PhpExpressionResultUnusedInspection */
+            $r->hasRoute('a');
+            /** @noinspection PhpExpressionResultUnusedInspection */
+            $r->routes();
             $kept = $r->match('GET', '/a/1');   // used: no warning
         } finally {
             restore_error_handler();
