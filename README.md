@@ -7,7 +7,7 @@ A PHP router with no dependencies. It is one class plus three small value classe
 - **Compiled cache:** under OPcache the route table lives in shared memory. Registration becomes nearly free and uses almost no request memory.
 - **Features:** named params, regex constraints and aliases, optional and catch-all params, mixed segments (`{name}.{ext}`), groups, middleware, named routes with URL generation, 404/405 with an `Allow` list, HEAD→GET fallback, any-method routes, controller resolution with a container hook, method override, and base path support.
 
-Requires PHP 8.5+, `match()`, `url()`, `allowedMethods()`, `hasRoute()`, `routes()` and `export()` are marked `#[\NoDiscard]`, so calling one and ignoring the result raises a warning. 
+Requires PHP 8.3+, `match()`, `url()`, `allowedMethods()`, `hasRoute()`, `routes()` and `export()` are marked `#[\NoDiscard]`, so calling one and ignoring the result raises a warning. 
 
 Based on:
 - [Sharkk Router](https://github.com/Valgorithms/sharkk-router)
