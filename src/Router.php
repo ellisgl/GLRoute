@@ -1155,7 +1155,7 @@ class Router implements Countable, IteratorAggregate
             }
 
             // Static methods are called on the class; instance methods on a shared instance.
-            return $this->instances[$key] = new ReflectionMethod($class, $method)->isStatic()
+            return $this->instances[$key] = (new ReflectionMethod($class, $method))->isStatic()
                 ? [$class, $method]
                 : [$this->instance($class), $method];
         }
