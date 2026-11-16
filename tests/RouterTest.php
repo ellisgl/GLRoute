@@ -475,11 +475,11 @@ final class RouterTest extends TestCase
             return true;
         }, \E_WARNING | \E_USER_WARNING);
         try {
-            $r->match('GET', '/a/1');
-            $r->url('a', ['id' => 1]);
-            $r->allowedMethods('/a/1');
-            $r->hasRoute('a');
-            $r->routes();
+            $kept = $r->match('GET', '/a/1');
+            $kept = $r->url('a', ['id' => 1]);
+            $kept = $r->allowedMethods('/a/1');
+            $kept = $r->hasRoute('a');
+            $kept = $r->routes();
             $kept = $r->match('GET', '/a/1');   // used: no warning
         } finally {
             restore_error_handler();
