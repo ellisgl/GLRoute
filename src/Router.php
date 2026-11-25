@@ -160,7 +160,7 @@ class Router implements Countable, IteratorAggregate
     /** @var array<string, array<string, int>> method => normalized path => route id */
     private array $static = [];
 
-    /** @var array<string, array> method => trie root node (see class docblock for the layout) */
+    /** @var array<string, array<mixed>> method => trie root node (see class docblock for the layout) */
     private array $tree = [];
 
     /** @var list<mixed> route id => handler exactly as registered */
@@ -614,7 +614,8 @@ class Router implements Countable, IteratorAggregate
             array_pop($steps);
             if (count($names) === 1) {
                 // The optional parameter was the only one: the short form is a static route.
-                $short = substr($pattern, 0, strrpos($pattern, '/')) ?: '/';
+                $slash = strrpos($pattern, '/');
+                $short = $slash ? substr($pattern, 0, $slash) : '/';
                 foreach ($methods as $m) {
                     $this->static[$m][$short] = $id;
                 }
@@ -630,8 +631,9 @@ class Router implements Countable, IteratorAggregate
      * Walk (creating as needed) the trie path described by $steps and store $id at its end.
      * Identical regex steps at the same node share one child.
      *
-     * @param array | null $node  trie root for one method, by reference (null for a new method)
-     * @param list<mixed>  $steps steps produced by insertDynamic()
+     * @param array<mixed> | null $node  trie root for one method, by reference (null for a new method)
+     * @param-out array<mixed>     $node
+     * @param list<mixed>         $steps steps produced by insertDynamic()
      */
     private function insertSteps(?array &$node, array $steps, int $id): void
     {
@@ -991,7 +993,7 @@ class Router implements Countable, IteratorAggregate
      * params (in registration order), plain param, catch-all. Recursion only happens at nodes that
      * have a matching static child AND a dynamic alternative, or more than one dynamic kind.
      *
-     * @param array        $node trie node to start from
+     * @param array<mixed> $node trie node to start from
      * @param list<string> $segs path segments ($segs[0] is the empty string before the leading '/')
      * @param int          $i    index of the next segment to match
      * @param int          $n    number of segments
@@ -1448,7 +1450,7 @@ class Router implements Countable, IteratorAggregate
     /**
      * Number of LEAF entries in a trie node and everything below it.
      *
-     * @param array $node
+     * @param array<mixed> $node
      *
      * @return int
      */
@@ -1508,13 +1510,7 @@ class Router implements Countable, IteratorAggregate
     /**
      * Depth-first collection of every route below a trie node.
      *
-     * @param array $node
-     * @param list<mixed>  $parts path so far: static segments, "\0p" (param), "\0w" (catch-all) or
-     *                            ["\0r", regex, ?groups] (constrained/mixed)
-     * @param list<array{id: int, method: string, pattern: string}> $list receives the entries
-     */
-    /**
-     * @param array       $node
+     * @param array<mixed> $node
      * @param list<mixed> $parts path so far: static segments, "\0p" (param), "\0w" (catch-all) or
      *                           ["\0r", regex, ?groups] (constrained/mixed)
      * @param string      $method
@@ -1527,7 +1523,7 @@ class Router implements Countable, IteratorAggregate
         foreach ($node as $key => $child) {
             // Numeric segments such as "2024" become int keys; compare as strings.
             $key = (string) $key;
-            if ($key === self::LEAF) {
+            if ($key === self::LEAF && is_int($child)) {
                 $list[] = ['id' => $child, 'method' => $method, 'pattern' => $this->rebuild($child, $parts)];
             } elseif (!is_array($child)) {
                 continue; // DYN flag, or an empty placeholder left by an aborted fast insert
