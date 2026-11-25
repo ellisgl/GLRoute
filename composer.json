@@ -2,7 +2,7 @@
     "name": "geeklab/glroute",
     "description": "Yet another PHP Router",
     "type": "library",
-    "license": "bsd-3-clause",
+    "license": "BSD-3-Clause",
     "autoload": {
         "psr-4": {
             "GeekLab\\GLRoute\\": "src/"

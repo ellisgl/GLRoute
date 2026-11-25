@@ -4,6 +4,7 @@
 [![Packagist Version](https://img.shields.io/packagist/v/geeklab/glroute)](https://packagist.org/packages/geeklab/glroute)
 [![PHP Version](https://img.shields.io/packagist/dependency-v/geeklab/glroute/php)](https://packagist.org/packages/geeklab/glroute)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%206-brightgreen)](https://phpstan.org/)
+[![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD--3--Clause-blue.svg)](LICENSE)
 
 A PHP router with no dependencies. It is one class plus three small value classes.
 
