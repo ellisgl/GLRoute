@@ -1,5 +1,10 @@
 # GLRoute
 
+[![CI](https://github.com/ellisgl/GLRoute/actions/workflows/ci.yml/badge.svg)](https://github.com/ellisgl/GLRoute/actions/workflows/ci.yml)
+[![Packagist Version](https://img.shields.io/packagist/v/geeklab/glroute)](https://packagist.org/packages/geeklab/glroute)
+[![PHP Version](https://img.shields.io/packagist/dependency-v/geeklab/glroute/php)](https://packagist.org/packages/geeklab/glroute)
+[![PHPStan](https://img.shields.io/badge/PHPStan-level%206-brightgreen)](https://phpstan.org/)
+
 A PHP router with no dependencies. It is one class plus three small value classes.
 
 - **Static routes** are stored in a flat hash map, so a match costs one `isset()` and no `explode()`.

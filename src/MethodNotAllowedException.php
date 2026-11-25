@@ -22,7 +22,7 @@ class MethodNotAllowedException extends RuntimeException
         public readonly string $method,
         public readonly string $path,
         public readonly array $allowed
-    ){
+    ) {
         parent::__construct(
             "Method $method not allowed for $path (allowed: " . implode(', ', $allowed) . ')',
             405
